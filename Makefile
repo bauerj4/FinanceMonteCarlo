@@ -19,4 +19,4 @@ objects:
 	cd ./src && $(CPP) $(CPP_FLAGS) -c $(CPP_SRC)
 
 clean:
-	rm ./bin/* *.o *~ src/*.o src/*~ include/*~
+	rm ./bin/* *.o *~ src/*.o src/*~ include/*~ plotting/*~ 

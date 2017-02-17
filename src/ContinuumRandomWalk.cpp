@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
 #include <time.h>
 
 
@@ -10,17 +11,26 @@
   to do a random walk.
 */
 
-int main(){
+int main(int argc, char ** argv){
   double dx,dt;
   int nSteps, nWalks;
   std::pair<double,double> p;
   std::vector<double> terminalPoints;
   BrownianMotion<double> * randomWalk;
+  std::stringstream ss(std::string(argv[1]));
 
-  dx = 1.0;
-  dt = 1.0;
-  nSteps = 1000;
-  nWalks = 1000;
+  std::cerr << "nWalks?" << std::endl;
+  std::cin >> nWalks;
+
+  std::cerr << "nSteps?" << std::endl;
+  std::cin >> nSteps;
+
+  std::cerr << "dx?" << std::endl;
+  std::cin >> dx;
+
+  std::cerr << "dt?" << std::endl;
+  std::cin >> dt;
+
 
   std::srand(time(NULL));
 
