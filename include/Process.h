@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <time.h>
 #include <iostream>
+#include "Distribution.h"
 //#include <pair>
 
 /*
@@ -22,6 +23,7 @@ template <class T> class Process{
 
   // Function to get next value (returns (time, value))
   virtual std::pair<T,T> GetNextValue(T dx, T dt)=0;
+
 
 };
 
