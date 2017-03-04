@@ -22,10 +22,15 @@ template <class T> class Process{
   ~Process(){}
 
   // Function to get next value (returns (time, value))
-  virtual std::pair<T,T> GetNextValue(T dx, T dt)=0;
-
+  //virtual std::pair<T,T> GetNextValue(T dx, T dt)=0;
+  //virtual std::pair<T,T> GetNextValue(T dt)=0;
 
 };
+
+
+/*
+  Simple random walk header
+*/
 
 template <class T> class BrownianMotion : public Process<T>{
  public:
@@ -36,6 +41,26 @@ template <class T> class BrownianMotion : public Process<T>{
   ~BrownianMotion(){};
 
   std::pair<T,T> GetNextValue(T dx, T dt);
+  std::pair<T,T> GetNextValue(T dt);
+};
+
+
+/*
+  Geometric Brownian motion header.  Must specify
+  initial value in constructor.
+*/
+class GeometricBrownianMotion : public Process<double>{
+ private:
+  double std;
+  double drift;
+ public:
+  // Constructor 
+ GeometricBrownianMotion(double t0, double x0, double mu, double s) : Process<double>(){values.push_back(x0); 
+    times.push_back(t0); std = s; drift = mu;};
+  ~GeometricBrownianMotion(){};
+
+  std::pair<double,double> GetNextValue(double dt);
+
 };
 
 
@@ -46,6 +71,10 @@ template <class T> class BrownianMotion : public Process<T>{
 BrownianMotion<double>  br_d;
 BrownianMotion<int>     br_i;
 
+
+/*
+  Class function declarations
+*/
 
 template <typename T>
 std::pair<T,T> BrownianMotion<T>::GetNextValue(T dx, T dt){
@@ -68,7 +97,31 @@ std::pair<T,T> BrownianMotion<T>::GetNextValue(T dx, T dt){
   return std::pair<T,T>(this->times.back(), this->values.back());
 }
 
+// empty function. not valid for SRW.
+template <typename T>
+std::pair<T,T> BrownianMotion<T>::GetNextValue(T dt){
+  
+  return std::pair<T,T>();
+}
 
+// empty function. not valid for GRW
+std::pair<double,double> GetNextValue(double dx, double dt){
+  return std::pair<double, double>();
+}
+
+std::pair<double,double> GeometricBrownianMotion::GetNextValue(double dt){
+  double normalSample, nextValue, nextTime;
+
+  nextTime = times.back() + dt;
+  normalSample = UnivariateNormal::getSample();
+  //std::cout << normalSample << std::endl;
+  nextValue = values.back() * (1.0 + drift * dt + std * sqrt(dt) * normalSample);
+
+  values.push_back(nextValue);
+  times.push_back(nextTime);
+
+  return std::pair<double, double>(nextTime, nextValue);
+}
 
 
 #endif
