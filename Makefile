@@ -1,8 +1,10 @@
 CPP         = g++
 CPP_FLAGS   = -std=c++11 -O3
 LIBS        = -lm
-CPP_OBJ     =  RandomWalk.o ContinuumRandomWalk.o GeometricRandomWalk.o ContinuumGeometricRandomWalk.o
-CPP_SRC     = RandomWalk.cpp ContinuumRandomWalk.cpp GeometricRandomWalk.cpp ContinuumGeometricRandomWalk.cpp
+CPP_OBJ     =  RandomWalk.o ContinuumRandomWalk.o GeometricRandomWalk.o ContinuumGeometricRandomWalk.o Asset.o\
+	ExamplePortfolio.o
+CPP_SRC     = RandomWalk.cpp ContinuumRandomWalk.cpp GeometricRandomWalk.cpp ContinuumGeometricRandomWalk.cpp\
+	Asset.cpp ExamplePortfolio.cpp
 
 all:
 	make objects
@@ -10,6 +12,10 @@ all:
 	make randomwalk
 	make continuumrandomwalk
 	make continuumgeometricrandomwalk
+	make exampleportfolio
+
+exampleportfolio:
+	cd src && $(CPP) $(CFLAGS) $(CLIBS) -o ../bin/exampleportfolio ExamplePortfolio.o Asset.o
 
 continuumgeometricrandomwalk:
 	cd src && $(CPP) $(CFLAGS) $(CLIBS) -o ../bin/continuumgeometricrandomwalk ContinuumGeometricRandomWalk.o
